@@ -9,7 +9,8 @@ import net.b0ss.diophantine.slave.solver.{ Evaluable, Parametrised, Solvable }
   */
 case class CubicPell(n: BigInt) extends Evaluable[(BigInt, BigInt, BigInt)] {
 
-  override def toString = s"x^3 + y^3 $n + z^3 $n^2 - 3xyz $n = 1"
+  //override def toString = s"x^3 + y^3 $n + z^3 $n^2 - 3xyz $n = 1"
+  override def toString = n.toString
 
   val evaluate = {
     case (x, y, z) =>
@@ -20,14 +21,18 @@ case class CubicPell(n: BigInt) extends Evaluable[(BigInt, BigInt, BigInt)] {
 
 object CubicPell {
 
-  private[solver] def bruteForceInputs: InputGenerator[(BigInt, BigInt, BigInt), CubicPell] =
+  private def bruteForceInputs: InputGenerator[(BigInt, BigInt, BigInt), CubicPell] =
     () => Sequences.zCubed.drop(2) // we ignore the trivial solution (1,0,0)
 
-  private[solver] implicit def parseParameters: Parametrised[CubicPell] = {
-    case (n: String) +: _ => CubicPell(BigInt(n))
-  }
-
-  private[solver] implicit def solvableCubicPell: Solvable[(BigInt, BigInt, BigInt), CubicPell] =
+  private[slave] implicit def solvableCubicPell: Solvable[(BigInt, BigInt, BigInt), CubicPell] =
     BruteForceSolver(bruteForceInputs)(_).solve
+
+  /** Directly read Byte Array into BigInt. */
+  private[slave] implicit def cubicPellFromBytes: Parametrised[Array[Byte], CubicPell] =
+    bytes => CubicPell(BigInt(bytes))
+
+  /** This is mainly for interactive use. */
+  private[slave] implicit def cubicPellFromString: Parametrised[String, CubicPell] =
+    s => CubicPell(BigInt(s))
 
 }

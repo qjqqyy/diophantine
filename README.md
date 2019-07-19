@@ -4,7 +4,7 @@ Stupidly bruteforces Diophantine equations.
 
 ## Motivation
 
-The author wished to find more solutions for the Diophantine equation given by
+The author wishes to find more solutions for the Diophantine equation given by
 ```
 x^3 + y^3 n + z^3 n^2 - 3nxyz = 1
 ```
@@ -33,6 +33,6 @@ There are 3 components.
 ## Protocol (It's shit)
 
 1. Slave connects to master
-2. Slave asks for a number by sending a line that exactly matches `token`.
+2. Slave asks for a number by ~~sending a line that~~ doing a HTTP GET on exactly ~~matches~~ `/token`.
 3. Master replies with parameters used to construct the parametrised equation.
 

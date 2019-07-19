@@ -1,7 +1,7 @@
 package net.b0ss.diophantine.slave.solver
 
-trait Parametrised[Equation] {
+trait Parametrised[Raw, Equation] {
 
-  def fromArgs(args: Seq[String]): Equation
+  def fromRaw(raw: Raw): Equation
 
 }

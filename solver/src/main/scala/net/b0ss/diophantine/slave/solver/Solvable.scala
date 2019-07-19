@@ -4,4 +4,6 @@ trait Solvable[In, Equation <: Evaluable[In]] {
 
   def solve(equation: Equation): In
 
+  def solveWithoutDiscardingEquation(e: Equation): (Equation, In) = (e, solve(e))
+
 }
