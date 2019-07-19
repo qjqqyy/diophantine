@@ -9,23 +9,17 @@ object Sequences {
 
   def positives: Iterator[BigInt] = iterate[BigInt](1)(_ + 1)
 
-  private def pairsWithSum(n: BigInt) = n to (0, -1) map (x => (x, n - x))
+  private def pairsWithSum(n: BigInt) = for (x <- n.to(0, -1)) yield (x, n - x)
 
   private def triplesWithSum(n: BigInt) =
-    n to (0, -1) flatMap { x =>
-      pairsWithSum(n - x) map { case (y, z) => (x, y, z) }
-    }
+    for (x <- n.to(0, -1); (y, z) <- pairsWithSum(n - x)) yield (x, y, z)
 
-  private val plusMinusOne = Seq(-1, 1)
+  private def plusMinus(n: BigInt): Seq[BigInt] = if (n == 0) Vector(0) else Vector(-n, n)
 
   def nCubed = positives flatMap triplesWithSum
 
-  def zCubed = nCubed flatMap {
-    case (x, y, z) =>
-      for (a <- plusMinusOne if a > 0 || x > 0;
-           b <- plusMinusOne if b > 0 || y > 0;
-           c <- plusMinusOne if c > 0 || z > 0)
-        yield (a * x, b * y, c * z)
-  }
+  def zCubed =
+    for ((x, y, z) <- nCubed; a <- plusMinus(x); b <- plusMinus(y); c <- plusMinus(z))
+      yield (a, b, c)
 
 }
