@@ -1,25 +1,26 @@
 package net.b0ss.diophantine.commons
 
-object CubelessNatsIterator {
+class CubelessNatsIterator extends Iterator[BigInt] {
 
-  def it: Iterator[BigInt] = new Iterator[BigInt] {
+  val nats = Sequences.positives
 
-    val nats = Sequences.positives
+  def hasNext = true
 
-    def hasNext = true
+  var nextN: BigInt = 1
+  var nextNCube: BigInt = 1
 
-    var nextN: BigInt = 1
-    var nextNCube: BigInt = 1
-
-    def next(): BigInt = {
-      var x = nats.next()
-      if (x == nextNCube) {
-        nextN += 1
-        nextNCube = nextN pow 3
-        x = nats.next()
-      }
-      x
+  def next(): BigInt = {
+    var x = nats.next()
+    if (x == nextNCube) {
+      nextN += 1
+      nextNCube = nextN pow 3
+      x = nats.next()
     }
-
+    x
   }
+
+}
+
+object CubelessNatsIterator {
+  def apply(): CubelessNatsIterator = new CubelessNatsIterator()
 }

@@ -33,6 +33,7 @@ There are 3 components.
 ## Protocol (It's shit)
 
 1. Slave connects to master
-2. Slave asks for a number by ~~sending a line that~~ doing a HTTP GET on exactly ~~matches~~ `/token`.
-3. Master replies with parameters used to construct the parametrised equation.
+2. Slave asks for a number by ~~sending a line that~~ doing a HTTP GET on exactly ~~matches~~ `/token`
+    * (Optional) Slave identifies itself with header `X-Slave-Identifier`
+3. Master replies with parameters used to construct the parametrised equation
 

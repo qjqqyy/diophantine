@@ -12,7 +12,8 @@ object SlaveHttpEndpoint extends SlaveConfig {
   def nextParam() =
     sttp
       .followRedirects(false)
-      .get(uri"http://$host:$port/$token")
+      .get(Uri(host, port, Vector(token)))
+      .header("X-Slave-Identifier", identifier)
       .send()
       .toEither
       .flatMap(_.body)
