@@ -17,10 +17,15 @@ abstract class EquationSearchPipeline[Raw, In, Equation <: Evaluable[In]](
   final def run(): Unit = {
     nextParam()
       .map(serializableEvidence.fromRaw)
-      .map(solvableEvidence.solveWithoutDiscardingEquation)
-      .foreach { (processSolution _).tupled }
+      .map(solvableEvidence.solveWithoutDiscardingEquation) match {
 
-    run()
+      case None =>
+        System.exit(1)
+
+      case Some((eq, ans)) =>
+        processSolution(eq, ans)
+        run()
+    }
   }
 
 }
