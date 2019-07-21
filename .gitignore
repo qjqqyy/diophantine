@@ -40,3 +40,7 @@ project/plugins/project/
 [._]s[a-rt-v][a-z]
 [._]ss[a-gi-z]
 [._]sw[a-p]
+
+# Deployment
+/deploy/work/*
+/deploy/secrets.yml

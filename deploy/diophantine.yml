@@ -1,0 +1,5 @@
+master_host: "{{ secret_master_host }}"
+master_port: "{{ secret_master_port }}"
+token_command: "{{ secret_token_command }}"
+install_base_dir: diophantine
+result_save_dir: results

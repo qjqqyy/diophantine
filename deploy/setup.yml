@@ -1,0 +1,21 @@
+---
+- hosts: "{{ master_host }}"
+  vars_files:
+    - ./diophantine.yml
+  tasks:
+    - name: make dirs
+      file:
+        path: "{{ install_base_dir }}/{{ result_save_dir }}"
+        state: directory
+
+    - name: copy master.jar to master node
+      copy: src=work/master.jar dest={{ install_base_dir }}/master.jar
+
+    - name: copy solver.jar (assuming shared nfs)
+      copy: src=work/solver.jar dest={{ install_base_dir }}/solver.jar
+
+    - name: copy master.jar wrapper
+      template:
+        src: ./templates/run_master.j2
+        dest: "{{ install_base_dir }}/run_master"
+        mode: 0700

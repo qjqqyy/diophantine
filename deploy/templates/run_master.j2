@@ -1,0 +1,5 @@
+#!/bin/sh
+exec java \
+  -Dmaster-port={{ master_port }} \
+  -Dtoken-command={{ token_command }} \
+  -jar master.jar

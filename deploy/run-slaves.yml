@@ -1,0 +1,20 @@
+---
+- hosts: xcn,!reserved,!{{ master_host }}
+  vars_files:
+    - ./diophantine.yml
+
+  order: shuffle
+
+  tasks:
+    - pause:
+        prompt: Make sure master is running on {{ master_host }}, proceed? (^C a to abort)
+
+    # this hack will do for now
+    - name: start slave
+      shell: LD_LIBRARY_PATH=$HOME/.local/lib
+          ./.local/bin/tmux new-session -d java
+          -Dmaster-host={{ master_host }}
+          -Dmaster-port={{ master_port }}
+          -Dtoken-command={{ token_command }}
+          -Dresult-save-dir={{ install_base_dir}}/{{ result_save_dir }}
+          -jar "{{ install_base_dir }}/solver.jar"
