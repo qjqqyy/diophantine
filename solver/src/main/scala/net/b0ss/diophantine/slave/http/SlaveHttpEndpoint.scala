@@ -1,11 +1,12 @@
 package net.b0ss.diophantine.slave.http
 
-import net.b0ss.diophantine.commons.config.SlaveConfig
 import com.softwaremill.sttp._
+import net.b0ss.diophantine.commons.config.SlaveConfig
+
 import scala.concurrent.duration._
 
 object SlaveHttpEndpoint extends SlaveConfig {
-  implicit val backend = TryHttpURLConnectionBackend(
+  implicit val backend = HttpURLConnectionBackend(
     options = SttpBackendOptions.connectionTimeout(10.seconds)
   )
 
@@ -14,9 +15,8 @@ object SlaveHttpEndpoint extends SlaveConfig {
       .followRedirects(false)
       .get(Uri(host, port, Vector(token)))
       .header("X-Slave-Identifier", identifier)
+      .response(asByteArray)
       .send()
-      .toEither
-      .flatMap(_.body)
+      .body
       .toOption
-      .map(_.getBytes)
 }
