@@ -12,8 +12,6 @@ abstract class EquationSearchCliApp[In, Equation <: Evaluable[In]](
 
   def nextParam() = Option(StdIn.readLine)
 
-  def processSolution(eqn: Equation, ans: In): Unit = println(s"$eqn\t $ans")
-
   run()
 
 }
